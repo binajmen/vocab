@@ -1,0 +1,6 @@
+vocab.binaj.dev {
+  root * /usr/share/caddy
+  file_server
+  try_files {path} /index.html
+  tls internal
+}

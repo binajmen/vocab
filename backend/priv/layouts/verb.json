@@ -1,0 +1,17 @@
+{
+  "id": "verb",
+  "name": "Verb",
+  "tabs": [
+    {
+      "name": "Present",
+      "fields": ["ich", "du", "er/sie/es", "wir", "ihr", "Sie/sie"]
+    },
+    {
+      "name": "Past",
+      "fields": ["ich", "du", "er/sie/es", "wir", "ihr", "Sie/sie"]
+    },
+    {
+      "name": "Participle"
+    }
+  ]
+}
