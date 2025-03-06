@@ -1,4 +1,3 @@
-import app/cards/router as card
 import app/context.{type Context}
 import app/users/router as user
 import app/web
@@ -11,7 +10,6 @@ pub fn handle_get(req: Request, ctx: Context) {
     ["healthcheck"] -> wisp.ok()
     ["users"] -> user.list_users(req, ctx)
     ["users", user_id] -> user.find_user(req, ctx, user_id)
-    ["random"] -> card.random(req, ctx)
     _ -> wisp.not_found()
   }
 }

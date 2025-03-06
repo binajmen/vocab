@@ -42,6 +42,9 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+    volumes:
+      - /home/ubuntu/vocab/frontend/dist:/var/lib/postgresql/data/pgdata
 
 volumes:
   postgres_data:
+  frontend_data
