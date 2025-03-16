@@ -12,11 +12,27 @@ export default defineConfig({
       projects: ["./tsconfig.json"],
     }),
     solidPlugin(),
+    {
+      name: "sql-loader",
+      transform(code, id) {
+        if (id.endsWith(".sql")) {
+          const content = JSON.stringify(code);
+          return `export default ${content};`;
+        }
+      },
+    },
   ],
   server: {
     port: 3010,
+    headers: {
+      "Cross-Origin-Embedder-Policy": "require-corp",
+      "Cross-Origin-Opener-Policy": "same-origin",
+    },
   },
   build: {
     target: "esnext",
+  },
+  optimizeDeps: {
+    exclude: ["@sqlite.org/sqlite-wasm"],
   },
 });

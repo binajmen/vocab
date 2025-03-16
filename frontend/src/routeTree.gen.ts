@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as VerbImport } from './routes/verb'
 import { Route as HelloImport } from './routes/hello'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
@@ -20,6 +21,12 @@ import { Route as ConsoleUsersCreateImport } from './routes/console/users/create
 import { Route as ConsoleUsersUseridImport } from './routes/console/users/$user_id'
 
 // Create/Update Routes
+
+const VerbRoute = VerbImport.update({
+  id: '/verb',
+  path: '/verb',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const HelloRoute = HelloImport.update({
   id: '/hello',
@@ -88,6 +95,13 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof HelloImport
       parentRoute: typeof rootRoute
     }
+    '/verb': {
+      id: '/verb'
+      path: '/verb'
+      fullPath: '/verb'
+      preLoaderRoute: typeof VerbImport
+      parentRoute: typeof rootRoute
+    }
     '/console/users': {
       id: '/console/users'
       path: '/console/users'
@@ -141,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/hello': typeof HelloRoute
+  '/verb': typeof VerbRoute
   '/console/users': typeof ConsoleUsersRouteWithChildren
   '/console/users/$user_id': typeof ConsoleUsersUseridRoute
   '/console/users/create': typeof ConsoleUsersCreateRoute
@@ -151,6 +166,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/hello': typeof HelloRoute
+  '/verb': typeof VerbRoute
   '/console/users/$user_id': typeof ConsoleUsersUseridRoute
   '/console/users/create': typeof ConsoleUsersCreateRoute
   '/console/users': typeof ConsoleUsersIndexRoute
@@ -161,6 +177,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/hello': typeof HelloRoute
+  '/verb': typeof VerbRoute
   '/console/users': typeof ConsoleUsersRouteWithChildren
   '/console/users/$user_id': typeof ConsoleUsersUseridRoute
   '/console/users/create': typeof ConsoleUsersCreateRoute
@@ -173,6 +190,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/hello'
+    | '/verb'
     | '/console/users'
     | '/console/users/$user_id'
     | '/console/users/create'
@@ -182,6 +200,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/hello'
+    | '/verb'
     | '/console/users/$user_id'
     | '/console/users/create'
     | '/console/users'
@@ -190,6 +209,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/hello'
+    | '/verb'
     | '/console/users'
     | '/console/users/$user_id'
     | '/console/users/create'
@@ -201,6 +221,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   HelloRoute: typeof HelloRoute
+  VerbRoute: typeof VerbRoute
   ConsoleUsersRoute: typeof ConsoleUsersRouteWithChildren
 }
 
@@ -208,6 +229,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   HelloRoute: HelloRoute,
+  VerbRoute: VerbRoute,
   ConsoleUsersRoute: ConsoleUsersRouteWithChildren,
 }
 
@@ -224,6 +246,7 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/hello",
+        "/verb",
         "/console/users"
       ]
     },
@@ -235,6 +258,9 @@ export const routeTree = rootRoute
     },
     "/hello": {
       "filePath": "hello.tsx"
+    },
+    "/verb": {
+      "filePath": "verb.tsx"
     },
     "/console/users": {
       "filePath": "console/users.tsx",
