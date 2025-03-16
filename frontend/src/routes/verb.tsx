@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/solid-router";
-import { Match, Switch, createSignal } from "solid-js";
+import { For, Match, Switch, createSignal } from "solid-js";
 import { scrapVerb } from "~/core/verb/verb.scraper";
 import type { Conjugation } from "~/core/verb/verb.type";
+import { logs } from "~/logger";
 import { insert_verb } from "~/sqlite/insert_verb";
 import { select_random_verb } from "~/sqlite/select_random_verb";
 
@@ -65,6 +66,16 @@ function Verb() {
       <details ref={rawRef!}>
         <summary>Raw</summary>
         <pre>{JSON.stringify(conjugation(), null, 2)}</pre>
+      </details>
+      <details>
+        <summary>Logs</summary>
+        <For each={logs()}>
+          {(log) => (
+            <div>
+              <pre>{log}</pre>
+            </div>
+          )}
+        </For>
       </details>
     </div>
   );

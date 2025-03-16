@@ -110,8 +110,6 @@ export async function scrapVerb(verb: string) {
       });
   });
 
-  console.log(conjugationData);
-
   const conjugation = {
     infinitive: verb,
     present: conjugationData.Indikativ.Präsens,

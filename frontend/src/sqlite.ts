@@ -1,8 +1,9 @@
 import { type Promiser, sqlite3Worker1Promiser } from "@sqlite.org/sqlite-wasm";
+import { log } from "./logger";
 
 const initializeSQLite = async () => {
   try {
-    console.log("Loading and initializing SQLite3 module...");
+    log("Loading and initializing SQLite3 module...");
 
     const promiser: Promiser = await new Promise((resolve) => {
       const _promiser = sqlite3Worker1Promiser({
@@ -16,21 +17,23 @@ const initializeSQLite = async () => {
     if (config.type === "error") {
       throw new Error("unable to retrieve config");
     }
-    console.log("Running SQLite3 version", config.result.version.libVersion);
+    log("Running SQLite3 version", config.result.version.libVersion);
 
     const open = await promiser("open", {
       filename: "file:worker-promiser.sqlite3?vfs=opfs",
     });
+    log("hummm");
     if (open.type === "error") {
+      log("unable to open ofps", JSON.stringify(open));
       throw new Error("unable to open opfs");
     }
     const { dbId } = open;
-    console.log(
+    log(
       "OPFS is available, created persisted database at",
       open.result.filename.replace(/^file:(.*?)\?vfs=opfs$/, "$1"),
     );
 
-    console.log("Creating tables...");
+    log("Creating tables...");
 
     await promiser("exec", {
       dbId,
@@ -57,7 +60,7 @@ const initializeSQLite = async () => {
       )`,
     });
 
-    console.log("Query data with exec()");
+    log("Query data with exec()");
     await promiser("exec", {
       dbId,
       sql: "SELECT * FROM verbs LIMIT 1",
@@ -72,6 +75,7 @@ const initializeSQLite = async () => {
     return { promiser, dbId };
     // await promiser("close", { dbId });
   } catch (err) {
+    log(JSON.stringify(err));
     if (err instanceof Error) {
       console.error(err.name, err.message);
     }

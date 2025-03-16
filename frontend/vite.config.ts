@@ -28,6 +28,10 @@ export default defineConfig({
       "Cross-Origin-Embedder-Policy": "require-corp",
       "Cross-Origin-Opener-Policy": "same-origin",
     },
+    allowedHosts: [
+      "mbp.tail8eb228.ts.net",
+      "6aad-2a02-a03f-6187-c200-8f2-abae-304c-8f7e.ngrok-free.app",
+    ],
   },
   build: {
     target: "esnext",
