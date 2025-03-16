@@ -4,7 +4,6 @@ import {
   type Pronoun,
   isPronoun,
 } from "~/core/verb/verb.type";
-import { fetchVerb } from "~/core/verb/verbs.scrap";
 
 export async function scrapVerb(verb: string) {
   const html = await fetchVerb(verb);
@@ -17,7 +16,7 @@ export async function scrapVerb(verb: string) {
     const text = $(element)
       .clone()
       .find("span.flected_form")
-      .each(function () {
+      .each(function() {
         $(this).replaceWith($(this).text());
       })
       .end()
@@ -41,7 +40,7 @@ export async function scrapVerb(verb: string) {
 
     $(table)
       .find("tr")
-      .each(function () {
+      .each(function() {
         const cols = $(this).find("td");
         if (cols.length < 2) return;
 
@@ -77,7 +76,7 @@ export async function scrapVerb(verb: string) {
   > = {};
 
   // Process each conjugation group (mood)
-  $(".ft-group").each(function () {
+  $(".ft-group").each(function() {
     const groupTitleEl = $(this).find("h2 .ft-current-header");
     if (!groupTitleEl.length) return;
 
@@ -87,7 +86,7 @@ export async function scrapVerb(verb: string) {
     // Process tables within this group (tenses)
     $(this)
       .find(".ft-single-table")
-      .each(function () {
+      .each(function() {
         const titleEl = $(this).find("h3");
         let tableTitle = "";
 
@@ -121,4 +120,11 @@ export async function scrapVerb(verb: string) {
   } satisfies Conjugation;
 
   return conjugation;
+}
+
+export async function fetchVerb(verb: string) {
+  const res = await fetch(
+    `https://en.pons.com/verb-tables/german/${verb}`,
+  ).then((res) => res.text());
+  return res;
 }

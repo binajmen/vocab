@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/solid-router";
 import { Match, Switch, createSignal } from "solid-js";
+import { scrapVerb } from "~/core/verb/verb.scraper";
 import type { Conjugation } from "~/core/verb/verb.type";
-import { scrapVerb } from "~/lib/scraper";
 import { insert_verb } from "~/sqlite/insert_verb";
 import { select_random_verb } from "~/sqlite/select_random_verb";
 
