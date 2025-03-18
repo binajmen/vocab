@@ -5,9 +5,50 @@ import {
   isPronoun,
 } from "~/core/verb/verb.type";
 
-export async function scrapVerb(verb: string) {
-  const html = await fetchVerb(verb);
+export async function scrapVerb(verb: string, query?: string) {
+  // If query is provided, use it to construct the complete URL parameter
+  const verbParam = query ? `${verb}?${query}` : verb;
+
+  const html = await fetchVerb(verbParam);
   const $ = cheerio.load(html);
+
+  // Check if we have a conjugation type selection page
+  const variantLinks = $(".ft-variant-links");
+  if (variantLinks.length > 0 && !query) {
+    // Only check for variants if not already using a query
+    // Look for the intransitive verb variant
+    const intransitiveLink = variantLinks
+      .find(".verbclass acronym[title='intransitive verb']")
+      .closest("h3")
+      .find("a")
+      .attr("href");
+
+    if (intransitiveLink) {
+      // Extract the id parameter from the link
+      const idMatch = intransitiveLink.match(/[?&]i=(\d+)/);
+      if (idMatch?.[1]) {
+        console.log(
+          `Found intransitive variant, redirecting with i=${idMatch[1]}`,
+        );
+        return scrapVerb(verb, `i=${idMatch[1]}`);
+      }
+    }
+
+    // If no intransitive, try to get the first available variant as fallback
+    const firstLink = variantLinks
+      .find(".flection-table-instances li:first-child a")
+      .attr("href");
+
+    if (firstLink) {
+      const idMatch = firstLink.match(/[?&]i=(\d+)/);
+      if (idMatch?.[1]) {
+        console.log(
+          `No intransitive variant found, using first variant with i=${idMatch[1]}`,
+        );
+        return scrapVerb(verb, `i=${idMatch[1]}`);
+      }
+    }
+  }
 
   // Function to extract text from HTML with spans
   // biome-ignore lint/suspicious/noExplicitAny: AnyNode not re-exported

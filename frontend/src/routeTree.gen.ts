@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as VerbImport } from './routes/verb'
+import { Route as NounImport } from './routes/noun'
 import { Route as HelloImport } from './routes/hello'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
@@ -25,6 +26,12 @@ import { Route as ConsoleUsersUseridImport } from './routes/console/users/$user_
 const VerbRoute = VerbImport.update({
   id: '/verb',
   path: '/verb',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const NounRoute = NounImport.update({
+  id: '/noun',
+  path: '/noun',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -95,6 +102,13 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof HelloImport
       parentRoute: typeof rootRoute
     }
+    '/noun': {
+      id: '/noun'
+      path: '/noun'
+      fullPath: '/noun'
+      preLoaderRoute: typeof NounImport
+      parentRoute: typeof rootRoute
+    }
     '/verb': {
       id: '/verb'
       path: '/verb'
@@ -155,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/hello': typeof HelloRoute
+  '/noun': typeof NounRoute
   '/verb': typeof VerbRoute
   '/console/users': typeof ConsoleUsersRouteWithChildren
   '/console/users/$user_id': typeof ConsoleUsersUseridRoute
@@ -166,6 +181,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/hello': typeof HelloRoute
+  '/noun': typeof NounRoute
   '/verb': typeof VerbRoute
   '/console/users/$user_id': typeof ConsoleUsersUseridRoute
   '/console/users/create': typeof ConsoleUsersCreateRoute
@@ -177,6 +193,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/hello': typeof HelloRoute
+  '/noun': typeof NounRoute
   '/verb': typeof VerbRoute
   '/console/users': typeof ConsoleUsersRouteWithChildren
   '/console/users/$user_id': typeof ConsoleUsersUseridRoute
@@ -190,6 +207,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/hello'
+    | '/noun'
     | '/verb'
     | '/console/users'
     | '/console/users/$user_id'
@@ -200,6 +218,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/hello'
+    | '/noun'
     | '/verb'
     | '/console/users/$user_id'
     | '/console/users/create'
@@ -209,6 +228,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/hello'
+    | '/noun'
     | '/verb'
     | '/console/users'
     | '/console/users/$user_id'
@@ -221,6 +241,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   HelloRoute: typeof HelloRoute
+  NounRoute: typeof NounRoute
   VerbRoute: typeof VerbRoute
   ConsoleUsersRoute: typeof ConsoleUsersRouteWithChildren
 }
@@ -229,6 +250,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   HelloRoute: HelloRoute,
+  NounRoute: NounRoute,
   VerbRoute: VerbRoute,
   ConsoleUsersRoute: ConsoleUsersRouteWithChildren,
 }
@@ -246,6 +268,7 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/hello",
+        "/noun",
         "/verb",
         "/console/users"
       ]
@@ -258,6 +281,9 @@ export const routeTree = rootRoute
     },
     "/hello": {
       "filePath": "hello.tsx"
+    },
+    "/noun": {
+      "filePath": "noun.tsx"
     },
     "/verb": {
       "filePath": "verb.tsx"
