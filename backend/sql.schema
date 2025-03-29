@@ -20,6 +20,54 @@ Owned by: public._migrations.id
  id     | integer | yes  | id
 primary key, btree, for table "public._migrations"
 
+                               Table "public.lexicons"
+   Column   |            Type             | Collation | Nullable |      Default      
+------------+-----------------------------+-----------+----------+-------------------
+ id         | uuid                        |           | not null | gen_random_uuid()
+ class      | character varying(20)       |           | not null | 
+ created_at | timestamp without time zone |           | not null | now()
+ updated_at | timestamp without time zone |           | not null | now()
+Indexes:
+    "lexicons_pkey" PRIMARY KEY, btree (id)
+    "lexicons_class_idx" btree (class)
+
+         Index "public.lexicons_class_idx"
+ Column |         Type          | Key? | Definition 
+--------+-----------------------+------+------------
+ class  | character varying(20) | yes  | class
+btree, for table "public.lexicons"
+
+   Index "public.lexicons_pkey"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ id     | uuid | yes  | id
+primary key, btree, for table "public.lexicons"
+
+                                Table "public.nouns"
+   Column   |            Type             | Collation | Nullable |      Default      
+------------+-----------------------------+-----------+----------+-------------------
+ id         | uuid                        |           | not null | gen_random_uuid()
+ article    | text                        |           | not null | 
+ singular   | text                        |           | not null | 
+ plural     | text                        |           | not null | 
+ created_at | timestamp without time zone |           | not null | now()
+ updated_at | timestamp without time zone |           | not null | now()
+Indexes:
+    "nouns_pkey" PRIMARY KEY, btree (id)
+    "nouns_singular_idx" UNIQUE, btree (singular)
+
+     Index "public.nouns_pkey"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ id     | uuid | yes  | id
+primary key, btree, for table "public.nouns"
+
+  Index "public.nouns_singular_idx"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ singular | text | yes  | singular
+unique, btree, for table "public.nouns"
+
                             Table "public.users"
  Column |          Type          | Collation | Nullable |      Default      
 --------+------------------------+-----------+----------+-------------------
@@ -27,9 +75,9 @@ primary key, btree, for table "public._migrations"
  email  | character varying(255) |           | not null | 
 Indexes:
     "users_pkey" PRIMARY KEY, btree (id)
-    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+    "users_email_idx" UNIQUE, btree (email)
 
-           Index "public.users_email_key"
+           Index "public.users_email_idx"
  Column |          Type          | Key? | Definition 
 --------+------------------------+------+------------
  email  | character varying(255) | yes  | email
@@ -40,4 +88,30 @@ unique, btree, for table "public.users"
 --------+------+------+------------
  id     | uuid | yes  | id
 primary key, btree, for table "public.users"
+
+                                   Table "public.verbs"
+     Column      |            Type             | Collation | Nullable |      Default      
+-----------------+-----------------------------+-----------+----------+-------------------
+ id              | uuid                        |           | not null | gen_random_uuid()
+ infinitive      | text                        |           | not null | 
+ present         | jsonb                       |           | not null | '{}'::jsonb
+ present_perfect | jsonb                       |           | not null | '{}'::jsonb
+ past            | jsonb                       |           | not null | '{}'::jsonb
+ created_at      | timestamp without time zone |           | not null | now()
+ updated_at      | timestamp without time zone |           | not null | now()
+Indexes:
+    "verbs_pkey" PRIMARY KEY, btree (id)
+    "verbs_infinitive_idx" UNIQUE, btree (infinitive)
+
+  Index "public.verbs_infinitive_idx"
+   Column   | Type | Key? | Definition 
+------------+------+------+------------
+ infinitive | text | yes  | infinitive
+unique, btree, for table "public.verbs"
+
+     Index "public.verbs_pkey"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ id     | uuid | yes  | id
+primary key, btree, for table "public.verbs"
 

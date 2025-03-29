@@ -1,5 +1,5 @@
 import app/context.{type Context}
-import app/users/sql
+import app/user/sql
 import gleam/dynamic/decode
 import gleam/json
 import gleam/result
@@ -63,7 +63,7 @@ pub fn create_user(req: Request, ctx: Context) -> Response {
 
   case decode.run(json, decode_payload) {
     Ok(email) -> {
-      case sql.create_user(ctx.db, uuid.v7(), email) {
+      case sql.create_user(ctx.db, email) {
         Ok(pog.Returned(_, [row])) ->
           json.object([
             #("id", json.string(uuid.to_string(row.id))),

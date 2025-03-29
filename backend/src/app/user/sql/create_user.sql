@@ -1,7 +1,7 @@
 insert into
-  users (id, email)
+  users (email)
 values
-  ($1, $2)
+  ($1)
 returning
   id,
   email

@@ -3,7 +3,7 @@ import pog
 import youid/uuid.{type Uuid}
 
 /// A row you get from running the `find_users` query
-/// defined in `./src/app/users/sql/find_users.sql`.
+/// defined in `./src/app/user/sql/find_users.sql`.
 ///
 /// > 🐿️ This type definition was generated automatically using v3.0.1 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
@@ -13,7 +13,7 @@ pub type FindUsersRow {
 }
 
 /// Runs the `find_users` query
-/// defined in `./src/app/users/sql/find_users.sql`.
+/// defined in `./src/app/user/sql/find_users.sql`.
 ///
 /// > 🐿️ This function was generated automatically using v3.0.1 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
@@ -36,7 +36,7 @@ from
 }
 
 /// A row you get from running the `create_user` query
-/// defined in `./src/app/users/sql/create_user.sql`.
+/// defined in `./src/app/user/sql/create_user.sql`.
 ///
 /// > 🐿️ This type definition was generated automatically using v3.0.1 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
@@ -46,12 +46,12 @@ pub type CreateUserRow {
 }
 
 /// Runs the `create_user` query
-/// defined in `./src/app/users/sql/create_user.sql`.
+/// defined in `./src/app/user/sql/create_user.sql`.
 ///
 /// > 🐿️ This function was generated automatically using v3.0.1 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
-pub fn create_user(db, arg_1, arg_2) {
+pub fn create_user(db, arg_1) {
   let decoder = {
     use id <- decode.field(0, uuid_decoder())
     use email <- decode.field(1, decode.string)
@@ -59,22 +59,21 @@ pub fn create_user(db, arg_1, arg_2) {
   }
 
   "insert into
-  users (id, email)
+  users (email)
 values
-  ($1, $2)
+  ($1)
 returning
   id,
   email
 "
   |> pog.query
-  |> pog.parameter(pog.text(uuid.to_string(arg_1)))
-  |> pog.parameter(pog.text(arg_2))
+  |> pog.parameter(pog.text(arg_1))
   |> pog.returning(decoder)
   |> pog.execute(db)
 }
 
 /// A row you get from running the `find_user` query
-/// defined in `./src/app/users/sql/find_user.sql`.
+/// defined in `./src/app/user/sql/find_user.sql`.
 ///
 /// > 🐿️ This type definition was generated automatically using v3.0.1 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
@@ -84,7 +83,7 @@ pub type FindUserRow {
 }
 
 /// Runs the `find_user` query
-/// defined in `./src/app/users/sql/find_user.sql`.
+/// defined in `./src/app/user/sql/find_user.sql`.
 ///
 /// > 🐿️ This function was generated automatically using v3.0.1 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
