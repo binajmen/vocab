@@ -3,6 +3,7 @@ import app/noun/sql
 import app/utils
 import gleam/dynamic/decode
 import gleam/json
+import gleam/list
 import gleam/result
 import pog
 import wisp.{type Request, type Response}
@@ -12,7 +13,15 @@ pub type Noun {
   Noun(article: String, singular: String, plural: String)
 }
 
-pub fn list_nouns(_req: Request, ctx: Context) -> Response {
+pub fn list_nouns(req: Request, ctx: Context) -> Response {
+  let lang = wisp.get_query(req) |> list.key_find("lang")
+  case lang {
+    Ok(lang) -> list_nouns_by_lang(ctx, lang)
+    Error(_) -> list_all_nouns(ctx)
+  }
+}
+
+fn list_all_nouns(ctx: Context) -> Response {
   let result = {
     use pog.Returned(_, rows) <- result.try(sql.find_nouns(ctx.db))
     Ok(
@@ -22,6 +31,31 @@ pub fn list_nouns(_req: Request, ctx: Context) -> Response {
           #("article", json.string(noun.article)),
           #("singular", json.string(noun.singular)),
           #("plural", json.string(noun.plural)),
+        ])
+      }),
+    )
+  }
+
+  case result {
+    Ok(json) -> json.to_string_tree(json) |> wisp.json_response(200)
+    Error(error) -> {
+      utils.json_pog_error(error)
+      |> wisp.json_response(404)
+    }
+  }
+}
+
+fn list_nouns_by_lang(ctx: Context, lang: String) -> Response {
+  let result = {
+    use pog.Returned(_, rows) <- result.try(sql.find_nouns_by_lang(ctx.db, lang))
+    Ok(
+      json.array(rows, fn(noun) {
+        json.object([
+          #("id", json.string(uuid.to_string(noun.id))),
+          #("article", json.string(noun.article)),
+          #("singular", json.string(noun.singular)),
+          #("plural", json.string(noun.plural)),
+          #("translation", json.string(noun.translation)),
         ])
       }),
     )

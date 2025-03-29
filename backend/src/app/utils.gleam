@@ -1,8 +1,23 @@
+import gleam/dynamic
 import gleam/dynamic/decode
 import gleam/json
 import gleam/list
 import gleam/string
 import pog
+import youid/uuid
+
+pub fn decode_uuid() -> decode.Decoder(uuid.Uuid) {
+  decode.new_primitive_decoder("Uuid", fn(data) {
+    case decode.run(dynamic.from(data), decode.string) {
+      Ok(string) ->
+        case uuid.from_string(string) {
+          Ok(uuid) -> Ok(uuid)
+          Error(_) -> Error(uuid.v4())
+        }
+      Error(_) -> Error(uuid.v4())
+    }
+  })
+}
 
 pub fn json_decode_errors(errors: List(decode.DecodeError)) {
   let errors =

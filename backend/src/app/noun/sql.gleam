@@ -101,11 +101,68 @@ pub fn find_nouns(db) {
   }
 
   "select
-  *
+	*
 from
-  nouns;
+	nouns
 "
   |> pog.query
+  |> pog.returning(decoder)
+  |> pog.execute(db)
+}
+
+/// A row you get from running the `find_nouns_by_lang` query
+/// defined in `./src/app/noun/sql/find_nouns_by_lang.sql`.
+///
+/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
+///
+pub type FindNounsByLangRow {
+  FindNounsByLangRow(
+    id: Uuid,
+    article: String,
+    singular: String,
+    plural: String,
+    created_at: pog.Timestamp,
+    updated_at: pog.Timestamp,
+    translation: String,
+  )
+}
+
+/// Runs the `find_nouns_by_lang` query
+/// defined in `./src/app/noun/sql/find_nouns_by_lang.sql`.
+///
+/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
+///
+pub fn find_nouns_by_lang(db, arg_1) {
+  let decoder = {
+    use id <- decode.field(0, uuid_decoder())
+    use article <- decode.field(1, decode.string)
+    use singular <- decode.field(2, decode.string)
+    use plural <- decode.field(3, decode.string)
+    use created_at <- decode.field(4, pog.timestamp_decoder())
+    use updated_at <- decode.field(5, pog.timestamp_decoder())
+    use translation <- decode.field(6, decode.string)
+    decode.success(FindNounsByLangRow(
+      id:,
+      article:,
+      singular:,
+      plural:,
+      created_at:,
+      updated_at:,
+      translation:,
+    ))
+  }
+
+  "select
+  n.*,
+  t.translation as translation
+from nouns as n
+inner join translations as t on t.lexicon_id = n.id
+where t.lang = $1
+"
+  |> pog.query
+  |> pog.parameter(pog.text(arg_1))
   |> pog.returning(decoder)
   |> pog.execute(db)
 }
