@@ -36,17 +36,15 @@ pub fn find_verbs(db) {
     use past <- decode.field(4, decode.string)
     use created_at <- decode.field(5, pog.timestamp_decoder())
     use updated_at <- decode.field(6, pog.timestamp_decoder())
-    decode.success(
-      FindVerbsRow(
-        id:,
-        infinitive:,
-        present:,
-        present_perfect:,
-        past:,
-        created_at:,
-        updated_at:,
-      ),
-    )
+    decode.success(FindVerbsRow(
+      id:,
+      infinitive:,
+      present:,
+      present_perfect:,
+      past:,
+      created_at:,
+      updated_at:,
+    ))
   }
 
   "select
@@ -88,9 +86,13 @@ pub fn create_verb(db, arg_1, arg_2, arg_3, arg_4) {
     use present <- decode.field(2, decode.string)
     use present_perfect <- decode.field(3, decode.string)
     use past <- decode.field(4, decode.string)
-    decode.success(
-      CreateVerbRow(id:, infinitive:, present:, present_perfect:, past:),
-    )
+    decode.success(CreateVerbRow(
+      id:,
+      infinitive:,
+      present:,
+      present_perfect:,
+      past:,
+    ))
   }
 
   "with

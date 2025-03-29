@@ -20,6 +20,31 @@ Owned by: public._migrations.id
  id     | integer | yes  | id
 primary key, btree, for table "public._migrations"
 
+                              Table "public.adjectives"
+   Column    |            Type             | Collation | Nullable |      Default      
+-------------+-----------------------------+-----------+----------+-------------------
+ id          | uuid                        |           | not null | gen_random_uuid()
+ positive    | text                        |           | not null | 
+ comparative | text                        |           | not null | 
+ superlative | text                        |           | not null | 
+ created_at  | timestamp without time zone |           | not null | now()
+ updated_at  | timestamp without time zone |           | not null | now()
+Indexes:
+    "adjectives_pkey" PRIMARY KEY, btree (id)
+    "adjectives_positive_idx" UNIQUE, btree (positive)
+
+  Index "public.adjectives_pkey"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ id     | uuid | yes  | id
+primary key, btree, for table "public.adjectives"
+
+Index "public.adjectives_positive_idx"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ positive | text | yes  | positive
+unique, btree, for table "public.adjectives"
+
                                Table "public.lexicons"
    Column   |            Type             | Collation | Nullable |      Default      
 ------------+-----------------------------+-----------+----------+-------------------
