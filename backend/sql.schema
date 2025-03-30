@@ -188,8 +188,8 @@ primary key, btree, for table "public.users"
  id              | uuid                        |           | not null | gen_random_uuid()
  infinitive      | text                        |           | not null | 
  present         | jsonb                       |           | not null | '{}'::jsonb
+ simple_past     | jsonb                       |           | not null | '{}'::jsonb
  present_perfect | jsonb                       |           | not null | '{}'::jsonb
- past            | jsonb                       |           | not null | '{}'::jsonb
  created_at      | timestamp without time zone |           | not null | now()
  updated_at      | timestamp without time zone |           | not null | now()
 Indexes:

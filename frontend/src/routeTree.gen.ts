@@ -11,11 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as VerbImport } from './routes/verb'
+import { Route as VerblocalImport } from './routes/verb_local'
 import { Route as NounImport } from './routes/noun'
 import { Route as HelloImport } from './routes/hello'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as VerbsIndexImport } from './routes/verbs/index'
+import { Route as NounsIndexImport } from './routes/nouns/index'
+import { Route as VerbsCreateImport } from './routes/verbs/create'
+import { Route as VerbsIdImport } from './routes/verbs/$id'
+import { Route as NounsCreateImport } from './routes/nouns/create'
+import { Route as NounsIdImport } from './routes/nouns/$id'
 import { Route as ConsoleUsersImport } from './routes/console/users'
 import { Route as ConsoleUsersIndexImport } from './routes/console/users/index'
 import { Route as ConsoleUsersCreateImport } from './routes/console/users/create'
@@ -23,9 +29,9 @@ import { Route as ConsoleUsersUseridImport } from './routes/console/users/$user_
 
 // Create/Update Routes
 
-const VerbRoute = VerbImport.update({
-  id: '/verb',
-  path: '/verb',
+const VerblocalRoute = VerblocalImport.update({
+  id: '/verb_local',
+  path: '/verb_local',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -50,6 +56,42 @@ const AboutRoute = AboutImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VerbsIndexRoute = VerbsIndexImport.update({
+  id: '/verbs/',
+  path: '/verbs/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const NounsIndexRoute = NounsIndexImport.update({
+  id: '/nouns/',
+  path: '/nouns/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VerbsCreateRoute = VerbsCreateImport.update({
+  id: '/verbs/create',
+  path: '/verbs/create',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VerbsIdRoute = VerbsIdImport.update({
+  id: '/verbs/$id',
+  path: '/verbs/$id',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const NounsCreateRoute = NounsCreateImport.update({
+  id: '/nouns/create',
+  path: '/nouns/create',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const NounsIdRoute = NounsIdImport.update({
+  id: '/nouns/$id',
+  path: '/nouns/$id',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -109,11 +151,11 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof NounImport
       parentRoute: typeof rootRoute
     }
-    '/verb': {
-      id: '/verb'
-      path: '/verb'
-      fullPath: '/verb'
-      preLoaderRoute: typeof VerbImport
+    '/verb_local': {
+      id: '/verb_local'
+      path: '/verb_local'
+      fullPath: '/verb_local'
+      preLoaderRoute: typeof VerblocalImport
       parentRoute: typeof rootRoute
     }
     '/console/users': {
@@ -121,6 +163,48 @@ declare module '@tanstack/solid-router' {
       path: '/console/users'
       fullPath: '/console/users'
       preLoaderRoute: typeof ConsoleUsersImport
+      parentRoute: typeof rootRoute
+    }
+    '/nouns/$id': {
+      id: '/nouns/$id'
+      path: '/nouns/$id'
+      fullPath: '/nouns/$id'
+      preLoaderRoute: typeof NounsIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/nouns/create': {
+      id: '/nouns/create'
+      path: '/nouns/create'
+      fullPath: '/nouns/create'
+      preLoaderRoute: typeof NounsCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/verbs/$id': {
+      id: '/verbs/$id'
+      path: '/verbs/$id'
+      fullPath: '/verbs/$id'
+      preLoaderRoute: typeof VerbsIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/verbs/create': {
+      id: '/verbs/create'
+      path: '/verbs/create'
+      fullPath: '/verbs/create'
+      preLoaderRoute: typeof VerbsCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/nouns/': {
+      id: '/nouns/'
+      path: '/nouns'
+      fullPath: '/nouns'
+      preLoaderRoute: typeof NounsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/verbs/': {
+      id: '/verbs/'
+      path: '/verbs'
+      fullPath: '/verbs'
+      preLoaderRoute: typeof VerbsIndexImport
       parentRoute: typeof rootRoute
     }
     '/console/users/$user_id': {
@@ -170,8 +254,14 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/hello': typeof HelloRoute
   '/noun': typeof NounRoute
-  '/verb': typeof VerbRoute
+  '/verb_local': typeof VerblocalRoute
   '/console/users': typeof ConsoleUsersRouteWithChildren
+  '/nouns/$id': typeof NounsIdRoute
+  '/nouns/create': typeof NounsCreateRoute
+  '/verbs/$id': typeof VerbsIdRoute
+  '/verbs/create': typeof VerbsCreateRoute
+  '/nouns': typeof NounsIndexRoute
+  '/verbs': typeof VerbsIndexRoute
   '/console/users/$user_id': typeof ConsoleUsersUseridRoute
   '/console/users/create': typeof ConsoleUsersCreateRoute
   '/console/users/': typeof ConsoleUsersIndexRoute
@@ -182,7 +272,13 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/hello': typeof HelloRoute
   '/noun': typeof NounRoute
-  '/verb': typeof VerbRoute
+  '/verb_local': typeof VerblocalRoute
+  '/nouns/$id': typeof NounsIdRoute
+  '/nouns/create': typeof NounsCreateRoute
+  '/verbs/$id': typeof VerbsIdRoute
+  '/verbs/create': typeof VerbsCreateRoute
+  '/nouns': typeof NounsIndexRoute
+  '/verbs': typeof VerbsIndexRoute
   '/console/users/$user_id': typeof ConsoleUsersUseridRoute
   '/console/users/create': typeof ConsoleUsersCreateRoute
   '/console/users': typeof ConsoleUsersIndexRoute
@@ -194,8 +290,14 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/hello': typeof HelloRoute
   '/noun': typeof NounRoute
-  '/verb': typeof VerbRoute
+  '/verb_local': typeof VerblocalRoute
   '/console/users': typeof ConsoleUsersRouteWithChildren
+  '/nouns/$id': typeof NounsIdRoute
+  '/nouns/create': typeof NounsCreateRoute
+  '/verbs/$id': typeof VerbsIdRoute
+  '/verbs/create': typeof VerbsCreateRoute
+  '/nouns/': typeof NounsIndexRoute
+  '/verbs/': typeof VerbsIndexRoute
   '/console/users/$user_id': typeof ConsoleUsersUseridRoute
   '/console/users/create': typeof ConsoleUsersCreateRoute
   '/console/users/': typeof ConsoleUsersIndexRoute
@@ -208,8 +310,14 @@ export interface FileRouteTypes {
     | '/about'
     | '/hello'
     | '/noun'
-    | '/verb'
+    | '/verb_local'
     | '/console/users'
+    | '/nouns/$id'
+    | '/nouns/create'
+    | '/verbs/$id'
+    | '/verbs/create'
+    | '/nouns'
+    | '/verbs'
     | '/console/users/$user_id'
     | '/console/users/create'
     | '/console/users/'
@@ -219,7 +327,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/hello'
     | '/noun'
-    | '/verb'
+    | '/verb_local'
+    | '/nouns/$id'
+    | '/nouns/create'
+    | '/verbs/$id'
+    | '/verbs/create'
+    | '/nouns'
+    | '/verbs'
     | '/console/users/$user_id'
     | '/console/users/create'
     | '/console/users'
@@ -229,8 +343,14 @@ export interface FileRouteTypes {
     | '/about'
     | '/hello'
     | '/noun'
-    | '/verb'
+    | '/verb_local'
     | '/console/users'
+    | '/nouns/$id'
+    | '/nouns/create'
+    | '/verbs/$id'
+    | '/verbs/create'
+    | '/nouns/'
+    | '/verbs/'
     | '/console/users/$user_id'
     | '/console/users/create'
     | '/console/users/'
@@ -242,8 +362,14 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   HelloRoute: typeof HelloRoute
   NounRoute: typeof NounRoute
-  VerbRoute: typeof VerbRoute
+  VerblocalRoute: typeof VerblocalRoute
   ConsoleUsersRoute: typeof ConsoleUsersRouteWithChildren
+  NounsIdRoute: typeof NounsIdRoute
+  NounsCreateRoute: typeof NounsCreateRoute
+  VerbsIdRoute: typeof VerbsIdRoute
+  VerbsCreateRoute: typeof VerbsCreateRoute
+  NounsIndexRoute: typeof NounsIndexRoute
+  VerbsIndexRoute: typeof VerbsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -251,8 +377,14 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   HelloRoute: HelloRoute,
   NounRoute: NounRoute,
-  VerbRoute: VerbRoute,
+  VerblocalRoute: VerblocalRoute,
   ConsoleUsersRoute: ConsoleUsersRouteWithChildren,
+  NounsIdRoute: NounsIdRoute,
+  NounsCreateRoute: NounsCreateRoute,
+  VerbsIdRoute: VerbsIdRoute,
+  VerbsCreateRoute: VerbsCreateRoute,
+  NounsIndexRoute: NounsIndexRoute,
+  VerbsIndexRoute: VerbsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -269,8 +401,14 @@ export const routeTree = rootRoute
         "/about",
         "/hello",
         "/noun",
-        "/verb",
-        "/console/users"
+        "/verb_local",
+        "/console/users",
+        "/nouns/$id",
+        "/nouns/create",
+        "/verbs/$id",
+        "/verbs/create",
+        "/nouns/",
+        "/verbs/"
       ]
     },
     "/": {
@@ -285,8 +423,8 @@ export const routeTree = rootRoute
     "/noun": {
       "filePath": "noun.tsx"
     },
-    "/verb": {
-      "filePath": "verb.tsx"
+    "/verb_local": {
+      "filePath": "verb_local.tsx"
     },
     "/console/users": {
       "filePath": "console/users.tsx",
@@ -295,6 +433,24 @@ export const routeTree = rootRoute
         "/console/users/create",
         "/console/users/"
       ]
+    },
+    "/nouns/$id": {
+      "filePath": "nouns/$id.tsx"
+    },
+    "/nouns/create": {
+      "filePath": "nouns/create.tsx"
+    },
+    "/verbs/$id": {
+      "filePath": "verbs/$id.tsx"
+    },
+    "/verbs/create": {
+      "filePath": "verbs/create.tsx"
+    },
+    "/nouns/": {
+      "filePath": "nouns/index.tsx"
+    },
+    "/verbs/": {
+      "filePath": "verbs/index.tsx"
     },
     "/console/users/$user_id": {
       "filePath": "console/users/$user_id.tsx",

@@ -1,12 +1,13 @@
+import tailwindcss from "@tailwindcss/vite";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import devtools from "solid-devtools/vite";
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import viteTsConfigPaths from "vite-tsconfig-paths";
-import devtools from "solid-devtools/vite";
 
 export default defineConfig({
   plugins: [
-    devtools(),
+    devtools({ autoname: true }),
     TanStackRouterVite({ target: "solid", autoCodeSplitting: true }),
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
@@ -21,6 +22,7 @@ export default defineConfig({
         }
       },
     },
+    tailwindcss(),
   ],
   server: {
     port: 3010,

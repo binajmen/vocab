@@ -1,5 +1,7 @@
 import { users } from "~/core/users/users.api";
 import { v } from "./utils/valibot";
+import { verbs } from "./core/verbs/verbs.api";
+import { nouns } from "./core/nouns/nouns.api";
 
 export const API_URL = "http://localhost:8010";
 
@@ -34,6 +36,8 @@ export async function post<Schema extends v.BaseSchema<any, any, any>>(
 
 export const api = {
   users,
+  verbs,
+  nouns,
 };
 
 export type Api = typeof api;

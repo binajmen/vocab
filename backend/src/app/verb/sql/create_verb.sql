@@ -8,7 +8,7 @@ with
       id
   )
 insert into
-  verbs (id, infinitive, present, present_perfect, past)
+  verbs (id, infinitive, present, simple_past, present_perfect)
 select
   id,
   $1,
@@ -21,5 +21,5 @@ returning
   id,
   infinitive,
   present,
-  present_perfect,
-  past;
+  simple_past,
+  present_perfect

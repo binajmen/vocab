@@ -1,9 +1,9 @@
 import * as cheerio from "cheerio";
 import {
-  type Conjugation,
+  type CreateVerb,
   type Pronoun,
   isPronoun,
-} from "~/core/verb/verb.type";
+} from "~/core/verbs/verbs.schema";
 
 export async function scrapVerb(verb: string, query?: string) {
   // If query is provided, use it to construct the complete URL parameter
@@ -57,7 +57,7 @@ export async function scrapVerb(verb: string, query?: string) {
     const text = $(element)
       .clone()
       .find("span.flected_form")
-      .each(function() {
+      .each(function () {
         $(this).replaceWith($(this).text());
       })
       .end()
@@ -81,7 +81,7 @@ export async function scrapVerb(verb: string, query?: string) {
 
     $(table)
       .find("tr")
-      .each(function() {
+      .each(function () {
         const cols = $(this).find("td");
         if (cols.length < 2) return;
 
@@ -117,7 +117,7 @@ export async function scrapVerb(verb: string, query?: string) {
   > = {};
 
   // Process each conjugation group (mood)
-  $(".ft-group").each(function() {
+  $(".ft-group").each(function () {
     const groupTitleEl = $(this).find("h2 .ft-current-header");
     if (!groupTitleEl.length) return;
 
@@ -127,7 +127,7 @@ export async function scrapVerb(verb: string, query?: string) {
     // Process tables within this group (tenses)
     $(this)
       .find(".ft-single-table")
-      .each(function() {
+      .each(function () {
         const titleEl = $(this).find("h3");
         let tableTitle = "";
 
@@ -154,9 +154,9 @@ export async function scrapVerb(verb: string, query?: string) {
   const conjugation = {
     infinitive: verb,
     present: conjugationData.Indikativ.Präsens,
-    past: conjugationData.Indikativ.Präteritum,
-    perfect: conjugationData.Indikativ.Perfekt,
-  } satisfies Conjugation;
+    simple_past: conjugationData.Indikativ.Präteritum,
+    present_perfect: conjugationData.Indikativ.Perfekt,
+  } satisfies CreateVerb;
 
   return conjugation;
 }

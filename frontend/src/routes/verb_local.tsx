@@ -6,7 +6,7 @@ import { logs } from "~/logger";
 import { insert_verb } from "~/sqlite/insert_verb";
 import { select_random_verb } from "~/sqlite/select_random_verb";
 
-export const Route = createFileRoute("/verb")({
+export const Route = createFileRoute("/verb_local")({
   component: Verb,
 });
 

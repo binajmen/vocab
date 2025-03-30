@@ -29,12 +29,9 @@ pub fn create_adjective(db, arg_1, arg_2, arg_3) {
     use positive <- decode.field(1, decode.string)
     use comparative <- decode.field(2, decode.string)
     use superlative <- decode.field(3, decode.string)
-    decode.success(CreateAdjectiveRow(
-      id:,
-      positive:,
-      comparative:,
-      superlative:,
-    ))
+    decode.success(
+      CreateAdjectiveRow(id:, positive:, comparative:, superlative:),
+    )
   }
 
   "with
@@ -100,14 +97,16 @@ pub fn find_adjectives(db) {
     use superlative <- decode.field(3, decode.string)
     use created_at <- decode.field(4, pog.timestamp_decoder())
     use updated_at <- decode.field(5, pog.timestamp_decoder())
-    decode.success(FindAdjectivesRow(
-      id:,
-      positive:,
-      comparative:,
-      superlative:,
-      created_at:,
-      updated_at:,
-    ))
+    decode.success(
+      FindAdjectivesRow(
+        id:,
+        positive:,
+        comparative:,
+        superlative:,
+        created_at:,
+        updated_at:,
+      ),
+    )
   }
 
   "select

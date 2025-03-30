@@ -24,6 +24,7 @@ pub fn list_nouns(req: Request, ctx: Context) -> Response {
 fn list_all_nouns(ctx: Context) -> Response {
   let result = {
     use pog.Returned(_, rows) <- result.try(sql.find_nouns(ctx.db))
+    echo rows
     Ok(
       json.array(rows, fn(noun) {
         json.object([
@@ -70,6 +71,30 @@ fn list_nouns_by_lang(ctx: Context, lang: String) -> Response {
   }
 }
 
+pub fn find_noun(req: Request, ctx: Context, noun_id: String) {
+  case uuid.from_string(noun_id) {
+    Ok(noun_id) -> {
+      case sql.find_noun(ctx.db, noun_id) {
+        Ok(pog.Returned(_, [noun])) ->
+          json.object([
+            #("id", json.string(uuid.to_string(noun.id))),
+            #("article", json.string(noun.article)),
+            #("singular", json.string(noun.singular)),
+            #("plural", json.string(noun.plural)),
+          ])
+          |> json.to_string_tree()
+          |> wisp.json_response(200)
+        Ok(pog.Returned(_, _)) -> wisp.not_found()
+        Error(error) -> {
+          utils.json_pog_error(error)
+          |> wisp.json_response(404)
+        }
+      }
+    }
+    Error(_) -> wisp.not_found()
+  }
+}
+
 fn decode_noun() {
   use article <- decode.field("article", decode.string)
   use singular <- decode.field("singular", decode.string)
@@ -83,6 +108,43 @@ pub fn create_noun(req: Request, ctx: Context) -> Response {
   case decode.run(json, decode_noun()) {
     Ok(noun) -> {
       case sql.create_noun(ctx.db, noun.article, noun.singular, noun.plural) {
+        Ok(pog.Returned(_, [noun])) ->
+          json.object([
+            #("id", json.string(uuid.to_string(noun.id))),
+            #("article", json.string(noun.article)),
+            #("singular", json.string(noun.singular)),
+            #("plural", json.string(noun.plural)),
+          ])
+          |> json.to_string_tree()
+          |> wisp.json_response(200)
+        Ok(pog.Returned(_, _)) -> wisp.unprocessable_entity()
+        Error(error) -> {
+          utils.json_pog_error(error)
+          |> wisp.json_response(404)
+        }
+      }
+    }
+    Error(errors) ->
+      utils.json_decode_errors(errors)
+      |> wisp.json_response(404)
+  }
+}
+
+pub fn update_noun(req: Request, ctx: Context, noun_id: String) {
+  use json <- wisp.require_json(req)
+  let assert Ok(noun_id) = uuid.from_string(noun_id)
+
+  case decode.run(json, decode_noun()) {
+    Ok(noun) -> {
+      case
+        sql.update_noun(
+          ctx.db,
+          noun_id,
+          noun.article,
+          noun.singular,
+          noun.plural,
+        )
+      {
         Ok(pog.Returned(_, [noun])) ->
           json.object([
             #("id", json.string(uuid.to_string(noun.id))),

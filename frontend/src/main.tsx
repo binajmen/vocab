@@ -1,9 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import { RouterProvider, createRouter } from "@tanstack/solid-router";
+import "solid-devtools";
 import { render } from "solid-js/web";
 import { api } from "./api";
+import "./main.css";
 import { routeTree } from "./routeTree.gen";
-import "solid-devtools";
 
 const queryClient = new QueryClient();
 

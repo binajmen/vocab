@@ -8,10 +8,10 @@ const list = queryOptions({
   queryFn: () => get("/users", v.array(UserSchema)),
 });
 
-const find = (user_id: string) =>
+const find = (id: string) =>
   queryOptions({
-    queryKey: ["users", user_id],
-    queryFn: () => get(`/users/${user_id}`, UserSchema),
+    queryKey: ["users", id],
+    queryFn: () => get(`/users/${id}`, UserSchema),
   });
 
 const create = {
