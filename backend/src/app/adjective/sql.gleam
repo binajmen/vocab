@@ -5,7 +5,7 @@ import youid/uuid.{type Uuid}
 /// A row you get from running the `create_adjective` query
 /// defined in `./src/app/adjective/sql/create_adjective.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type CreateAdjectiveRow {
@@ -20,7 +20,7 @@ pub type CreateAdjectiveRow {
 /// Runs the `create_adjective` query
 /// defined in `./src/app/adjective/sql/create_adjective.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn create_adjective(db, arg_1, arg_2, arg_3) {
@@ -69,7 +69,7 @@ returning
 /// A row you get from running the `find_adjectives` query
 /// defined in `./src/app/adjective/sql/find_adjectives.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindAdjectivesRow {
@@ -86,7 +86,7 @@ pub type FindAdjectivesRow {
 /// Runs the `find_adjectives` query
 /// defined in `./src/app/adjective/sql/find_adjectives.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn find_adjectives(db) {

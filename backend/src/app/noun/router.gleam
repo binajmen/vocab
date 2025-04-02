@@ -1,9 +1,12 @@
 import app/context.{type Context}
 import app/noun/sql
 import app/utils
+import gleam/dict
 import gleam/dynamic/decode
+import gleam/function
 import gleam/json
 import gleam/list
+import gleam/option.{type Option, None, Some}
 import gleam/result
 import pog
 import wisp.{type Request, type Response}
@@ -24,14 +27,22 @@ pub fn list_nouns(req: Request, ctx: Context) -> Response {
 fn list_all_nouns(ctx: Context) -> Response {
   let result = {
     use pog.Returned(_, rows) <- result.try(sql.find_nouns(ctx.db))
-    echo rows
     Ok(
       json.array(rows, fn(noun) {
+        let translations =
+          noun.translations
+          |> json.parse(decode.dict(decode.string, decode.string))
+          |> result.unwrap(dict.new())
+
         json.object([
           #("id", json.string(uuid.to_string(noun.id))),
           #("article", json.string(noun.article)),
           #("singular", json.string(noun.singular)),
           #("plural", json.string(noun.plural)),
+          #(
+            "translations",
+            json.dict(translations, function.identity, json.string),
+          ),
         ])
       }),
     )
@@ -47,31 +58,10 @@ fn list_all_nouns(ctx: Context) -> Response {
 }
 
 fn list_nouns_by_lang(ctx: Context, lang: String) -> Response {
-  let result = {
-    use pog.Returned(_, rows) <- result.try(sql.find_nouns_by_lang(ctx.db, lang))
-    Ok(
-      json.array(rows, fn(noun) {
-        json.object([
-          #("id", json.string(uuid.to_string(noun.id))),
-          #("article", json.string(noun.article)),
-          #("singular", json.string(noun.singular)),
-          #("plural", json.string(noun.plural)),
-          #("translation", json.string(noun.translation)),
-        ])
-      }),
-    )
-  }
-
-  case result {
-    Ok(json) -> json.to_string_tree(json) |> wisp.json_response(200)
-    Error(error) -> {
-      utils.json_pog_error(error)
-      |> wisp.json_response(404)
-    }
-  }
+  todo
 }
 
-pub fn find_noun(req: Request, ctx: Context, noun_id: String) {
+pub fn find_noun(_req: Request, ctx: Context, noun_id: String) {
   case uuid.from_string(noun_id) {
     Ok(noun_id) -> {
       case sql.find_noun(ctx.db, noun_id) {

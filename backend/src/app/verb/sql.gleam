@@ -6,7 +6,7 @@ import youid/uuid.{type Uuid}
 /// A row you get from running the `find_verbs` query
 /// defined in `./src/app/verb/sql/find_verbs.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindVerbsRow {
@@ -24,7 +24,7 @@ pub type FindVerbsRow {
 /// Runs the `find_verbs` query
 /// defined in `./src/app/verb/sql/find_verbs.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn find_verbs(db) {
@@ -62,7 +62,7 @@ from
 /// A row you get from running the `find_verbs_by_lang` query
 /// defined in `./src/app/verb/sql/find_verbs_by_lang.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindVerbsByLangRow {
@@ -81,7 +81,7 @@ pub type FindVerbsByLangRow {
 /// Runs the `find_verbs_by_lang` query
 /// defined in `./src/app/verb/sql/find_verbs_by_lang.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn find_verbs_by_lang(db, arg_1) {
@@ -124,7 +124,7 @@ where t.lang = $1
 /// A row you get from running the `find_verb` query
 /// defined in `./src/app/verb/sql/find_verb.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindVerbRow {
@@ -142,7 +142,7 @@ pub type FindVerbRow {
 /// Runs the `find_verb` query
 /// defined in `./src/app/verb/sql/find_verb.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn find_verb(db, arg_1) {
@@ -178,7 +178,7 @@ pub fn find_verb(db, arg_1) {
 /// A row you get from running the `create_verb` query
 /// defined in `./src/app/verb/sql/create_verb.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type CreateVerbRow {
@@ -194,7 +194,7 @@ pub type CreateVerbRow {
 /// Runs the `create_verb` query
 /// defined in `./src/app/verb/sql/create_verb.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn create_verb(db, arg_1, arg_2, arg_3, arg_4) {
@@ -247,7 +247,7 @@ returning
 /// A row you get from running the `update_verb` query
 /// defined in `./src/app/verb/sql/update_verb.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type UpdateVerbRow {
@@ -263,7 +263,7 @@ pub type UpdateVerbRow {
 /// Runs the `update_verb` query
 /// defined in `./src/app/verb/sql/update_verb.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn update_verb(db, arg_1, arg_2, arg_3, arg_4, arg_5) {

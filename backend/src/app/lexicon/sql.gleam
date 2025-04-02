@@ -5,7 +5,7 @@ import youid/uuid.{type Uuid}
 /// A row you get from running the `find_lexicons` query
 /// defined in `./src/app/lexicon/sql/find_lexicons.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindLexiconsRow {
@@ -20,7 +20,7 @@ pub type FindLexiconsRow {
 /// Runs the `find_lexicons` query
 /// defined in `./src/app/lexicon/sql/find_lexicons.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn find_lexicons(db) {

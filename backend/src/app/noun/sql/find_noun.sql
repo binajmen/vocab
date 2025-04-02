@@ -1,1 +1,6 @@
-select * from nouns where id = $1;
+select
+  *
+from
+  nouns
+where
+  id = $1;

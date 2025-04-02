@@ -2,6 +2,7 @@ import { createForm } from "@tanstack/solid-form";
 import { createMutation } from "@tanstack/solid-query";
 import { createFileRoute, useNavigate } from "@tanstack/solid-router";
 import { api } from "~/api";
+import { ButtonGroup } from "~/components/button";
 import { CreateNounSchema } from "~/core/nouns/nouns.schema";
 import { scrapNoun } from "~/core/nouns/nouns.scraper";
 
@@ -36,6 +37,7 @@ function RouteComponent() {
     form.reset();
     form.setFieldValue("singular", singular);
     const noun = await scrapNoun(form.state.values.singular);
+    console.log(noun);
     if (!noun) return;
     form.setFieldValue("article", noun.article);
     form.setFieldValue("plural", noun.plural);
@@ -93,7 +95,7 @@ function RouteComponent() {
             </>
           )}
         />
-        <div class="inline-grid grid-flow-col auto-cols-fr gap-8">
+        <ButtonGroup>
           <button type="button" onClick={searchNoun}>
             Search
           </button>
@@ -112,7 +114,7 @@ function RouteComponent() {
               </button>
             )}
           />
-        </div>
+        </ButtonGroup>
       </form>
     </div>
   );

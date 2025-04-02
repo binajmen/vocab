@@ -34,6 +34,7 @@ export function parseWikitextContent(xmlContent: string) {
   const genusMatch = /\|Genus=(\w+)/i.exec(wikitext);
   const gender = genusMatch?.[1];
   if (!gender) return null;
+  console.log(gender);
 
   // Get the appropriate article based on gender
   let article: "der" | "die" | "das" | null = null;
@@ -41,20 +42,25 @@ export function parseWikitextContent(xmlContent: string) {
   if (gender === "f") article = "die";
   if (gender === "n") article = "das";
   if (!article) return null;
+  console.log(article);
 
   // Extract singular form
   const singularMatch = /\|Nominativ Singular=([^\|\n]+)/i.exec(wikitext);
   const singular = singularMatch ? singularMatch[1].trim() : null;
   if (!singular) return null;
+  console.log(singular);
 
   // Extract plural form
-  const pluralMatch = /\|Nominativ Plural=([^\|\n]+)/i.exec(wikitext);
+  const pluralMatch = /\|Nominativ Plural(?:\s*\d*)?=([^\|\n]+)/i.exec(
+    wikitext,
+  );
   const plural = pluralMatch ? pluralMatch[1].trim() : null;
   if (!plural) return null;
+  console.log(plural);
 
   // Extract French translation with gender information
-  // const frRegex = /\*\{\{fr\}\}: \{\{Ü\|fr\|([^}]+)\}\}(?: \{\{[mfn]\}\})?/;
-  // const frMatch = wikitext.match(frRegex);
+  const frenchRegex = /\*\{\{fr\}\}: \{\{Ü\|fr\|([^}]+)\}\}/;
+  const french = wikitext.match(frenchRegex);
   // const fr = frMatch ? frMatch[1] : null;
   // const frTranslations = findFrenchTranslations(wikitext);
   // // Use the first translation if multiple are found (common case for different meanings)
@@ -65,8 +71,7 @@ export function parseWikitextContent(xmlContent: string) {
     article,
     singular,
     plural,
-    // fr: frMatch ? frMatch[0] : null,
-    // frGender: frMatch ? frMatch[1] : null,
+    french: french ? french[1] : null,
     // fr: frData ? frData.word : null,
     // frGender: frData ? frData.gender : null,
   };

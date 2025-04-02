@@ -7,7 +7,4 @@ set
 where
   id = $1
 returning
-  id,
-  article,
-  singular,
-  plural
+	*;

@@ -5,7 +5,7 @@ import youid/uuid.{type Uuid}
 /// A row you get from running the `find_users` query
 /// defined in `./src/app/user/sql/find_users.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindUsersRow {
@@ -15,7 +15,7 @@ pub type FindUsersRow {
 /// Runs the `find_users` query
 /// defined in `./src/app/user/sql/find_users.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn find_users(db) {
@@ -38,7 +38,7 @@ from
 /// A row you get from running the `create_user` query
 /// defined in `./src/app/user/sql/create_user.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type CreateUserRow {
@@ -48,7 +48,7 @@ pub type CreateUserRow {
 /// Runs the `create_user` query
 /// defined in `./src/app/user/sql/create_user.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn create_user(db, arg_1) {
@@ -75,7 +75,7 @@ returning
 /// A row you get from running the `find_user` query
 /// defined in `./src/app/user/sql/find_user.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindUserRow {
@@ -85,7 +85,7 @@ pub type FindUserRow {
 /// Runs the `find_user` query
 /// defined in `./src/app/user/sql/find_user.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn find_user(db, arg_1) {

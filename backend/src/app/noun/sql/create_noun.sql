@@ -17,7 +17,4 @@ select
 from
   lexicon_insert
 returning
-  id,
-  article,
-  singular,
-  plural
+  *;

@@ -1,4 +1,4 @@
 select
-	*
+	n.*
 from
-	nouns
+	nouns n

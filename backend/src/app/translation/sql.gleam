@@ -5,7 +5,7 @@ import youid/uuid.{type Uuid}
 /// A row you get from running the `find_translations` query
 /// defined in `./src/app/translation/sql/find_translations.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindTranslationsRow {
@@ -20,7 +20,7 @@ pub type FindTranslationsRow {
 /// Runs the `find_translations` query
 /// defined in `./src/app/translation/sql/find_translations.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn find_translations(db) {
@@ -45,7 +45,7 @@ from
 /// A row you get from running the `create_translation` query
 /// defined in `./src/app/translation/sql/create_translation.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type CreateTranslationRow {
@@ -60,7 +60,7 @@ pub type CreateTranslationRow {
 /// Runs the `create_translation` query
 /// defined in `./src/app/translation/sql/create_translation.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn create_translation(db, arg_1, arg_2, arg_3) {

@@ -5,7 +5,7 @@ import youid/uuid.{type Uuid}
 /// A row you get from running the `create_term` query
 /// defined in `./src/app/term/sql/create_term.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type CreateTermRow {
@@ -15,7 +15,7 @@ pub type CreateTermRow {
 /// Runs the `create_term` query
 /// defined in `./src/app/term/sql/create_term.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn create_term(db, arg_1) {
@@ -54,7 +54,7 @@ returning
 /// A row you get from running the `find_terms` query
 /// defined in `./src/app/term/sql/find_terms.sql`.
 ///
-/// > 🐿️ This type definition was generated automatically using v3.0.1 of the
+/// > 🐿️ This type definition was generated automatically using v3.0.2 of the
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindTermsRow {
@@ -69,7 +69,7 @@ pub type FindTermsRow {
 /// Runs the `find_terms` query
 /// defined in `./src/app/term/sql/find_terms.sql`.
 ///
-/// > 🐿️ This function was generated automatically using v3.0.1 of
+/// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub fn find_terms(db) {
