@@ -14,7 +14,8 @@ pub fn list_lexicon(_req: Request, ctx: Context) -> Response {
       json.array(rows, fn(lexicon) {
         json.object([
           #("id", json.string(uuid.to_string(lexicon.id))),
-          #("class", json.string(lexicon.class)),
+          #("category", json.string(lexicon.category)),
+          #("concept", json.string(lexicon.concept)),
         ])
       }),
     )

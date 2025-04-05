@@ -5,6 +5,7 @@ create table adjectives (
 	positive text not null,
 	comparative text not null,
 	superlative text not null,
+	translations jsonb not null,
 	-- constraints
 	primary key (id),
 	foreign key (lexicon_id) references lexicon (id),

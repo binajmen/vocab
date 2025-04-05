@@ -1,20 +1,21 @@
 with
   lexicon_insert as (
     insert into
-      lexicons (class)
+      lexicon(category, concept)
     values
-      ('noun')
+      ('noun', $2)
     returning
       id
   )
 insert into
-  nouns (id, article, singular, plural)
+  nouns (id, article, singular, plural, translations)
 select
   id,
   $1,
   $2,
-  $3
+  $3,
+  $4
 from
   lexicon_insert
 returning
-  *;
+  id;

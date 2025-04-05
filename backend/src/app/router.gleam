@@ -1,7 +1,5 @@
 import app/context.{type Context}
 import app/noun/router as noun
-import app/term/router as term
-import app/translation/router as translation
 import app/user/router as user
 import app/verb/router as verb
 import app/web
@@ -18,8 +16,6 @@ pub fn handle_get(req: Request, ctx: Context) {
     ["nouns", noun_id] -> noun.find_noun(req, ctx, noun_id)
     ["verbs"] -> verb.list_verbs(req, ctx)
     ["verbs", verb_id] -> verb.find_verb(req, ctx, verb_id)
-    ["terms"] -> term.list_terms(req, ctx)
-    ["translations"] -> translation.list_translations(req, ctx)
     _ -> wisp.not_found()
   }
 }
@@ -31,8 +27,6 @@ pub fn handle_post(req: Request, ctx: Context) {
     ["nouns", noun_id] -> noun.update_noun(req, ctx, noun_id)
     ["verbs"] -> verb.create_verb(req, ctx)
     ["verbs", verb_id] -> verb.update_verb(req, ctx, verb_id)
-    ["terms"] -> term.create_term(req, ctx)
-    ["translations"] -> translation.create_translation(req, ctx)
     _ -> wisp.not_found()
   }
 }

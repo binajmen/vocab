@@ -1,23 +1,21 @@
 with
   lexicon_insert as (
     insert into
-      lexicons (class)
+      lexicon (category, concept)
     values
-      ('adjective')
+      ('adjective', $1)
     returning
       id
   )
 insert into
-  adjectives (id, positive, comparative, superlative)
+  adjectives (id, positive, comparative, superlative, translations)
 select
   id,
   $1,
   $2,
-  $3
+  $3,
+  $4
 from
   lexicon_insert
 returning
-  id,
-  positive,
-  comparative,
-  superlative;
+  id;

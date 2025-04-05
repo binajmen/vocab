@@ -9,12 +9,7 @@ import youid/uuid.{type Uuid}
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type FindLexiconsRow {
-  FindLexiconsRow(
-    id: Uuid,
-    class: String,
-    created_at: pog.Timestamp,
-    updated_at: pog.Timestamp,
-  )
+  FindLexiconsRow(id: Uuid, category: String, concept: String)
 }
 
 /// Runs the `find_lexicons` query
@@ -26,16 +21,15 @@ pub type FindLexiconsRow {
 pub fn find_lexicons(db) {
   let decoder = {
     use id <- decode.field(0, uuid_decoder())
-    use class <- decode.field(1, decode.string)
-    use created_at <- decode.field(2, pog.timestamp_decoder())
-    use updated_at <- decode.field(3, pog.timestamp_decoder())
-    decode.success(FindLexiconsRow(id:, class:, created_at:, updated_at:))
+    use category <- decode.field(1, decode.string)
+    use concept <- decode.field(2, decode.string)
+    decode.success(FindLexiconsRow(id:, category:, concept:))
   }
 
   "select
   *
 from
-  lexicons;
+  lexicon;
 "
   |> pog.query
   |> pog.returning(decoder)

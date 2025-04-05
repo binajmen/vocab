@@ -1,4 +1,5 @@
 import gleam/dynamic/decode
+import gleam/json
 import pog
 import youid/uuid.{type Uuid}
 
@@ -9,12 +10,7 @@ import youid/uuid.{type Uuid}
 /// > [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
 pub type CreateAdjectiveRow {
-  CreateAdjectiveRow(
-    id: Uuid,
-    positive: String,
-    comparative: String,
-    superlative: String,
-  )
+  CreateAdjectiveRow(id: Uuid)
 }
 
 /// Runs the `create_adjective` query
@@ -23,45 +19,39 @@ pub type CreateAdjectiveRow {
 /// > 🐿️ This function was generated automatically using v3.0.2 of
 /// > the [squirrel package](https://github.com/giacomocavalieri/squirrel).
 ///
-pub fn create_adjective(db, arg_1, arg_2, arg_3) {
+pub fn create_adjective(db, arg_1, arg_2, arg_3, arg_4) {
   let decoder = {
     use id <- decode.field(0, uuid_decoder())
-    use positive <- decode.field(1, decode.string)
-    use comparative <- decode.field(2, decode.string)
-    use superlative <- decode.field(3, decode.string)
-    decode.success(
-      CreateAdjectiveRow(id:, positive:, comparative:, superlative:),
-    )
+    decode.success(CreateAdjectiveRow(id:))
   }
 
   "with
   lexicon_insert as (
     insert into
-      lexicons (class)
+      lexicon (category, concept)
     values
-      ('adjective')
+      ('adjective', $1)
     returning
       id
   )
 insert into
-  adjectives (id, positive, comparative, superlative)
+  adjectives (id, positive, comparative, superlative, translations)
 select
   id,
   $1,
   $2,
-  $3
+  $3,
+  $4
 from
   lexicon_insert
 returning
-  id,
-  positive,
-  comparative,
-  superlative;
+  id;
 "
   |> pog.query
   |> pog.parameter(pog.text(arg_1))
   |> pog.parameter(pog.text(arg_2))
   |> pog.parameter(pog.text(arg_3))
+  |> pog.parameter(pog.text(json.to_string(arg_4)))
   |> pog.returning(decoder)
   |> pog.execute(db)
 }
@@ -75,11 +65,11 @@ returning
 pub type FindAdjectivesRow {
   FindAdjectivesRow(
     id: Uuid,
+    lexicon_id: Uuid,
     positive: String,
     comparative: String,
     superlative: String,
-    created_at: pog.Timestamp,
-    updated_at: pog.Timestamp,
+    translations: String,
   )
 }
 
@@ -92,19 +82,19 @@ pub type FindAdjectivesRow {
 pub fn find_adjectives(db) {
   let decoder = {
     use id <- decode.field(0, uuid_decoder())
-    use positive <- decode.field(1, decode.string)
-    use comparative <- decode.field(2, decode.string)
-    use superlative <- decode.field(3, decode.string)
-    use created_at <- decode.field(4, pog.timestamp_decoder())
-    use updated_at <- decode.field(5, pog.timestamp_decoder())
+    use lexicon_id <- decode.field(1, uuid_decoder())
+    use positive <- decode.field(2, decode.string)
+    use comparative <- decode.field(3, decode.string)
+    use superlative <- decode.field(4, decode.string)
+    use translations <- decode.field(5, decode.string)
     decode.success(
       FindAdjectivesRow(
         id:,
+        lexicon_id:,
         positive:,
         comparative:,
         superlative:,
-        created_at:,
-        updated_at:,
+        translations:,
       ),
     )
   }

@@ -1,7 +1,7 @@
-                                        Table "public._migrations"
-  Column   |            Type             | Collation | Nullable |                 Default                 
------------+-----------------------------+-----------+----------+-----------------------------------------
- id        | integer                     |           | not null | nextval('_migrations_id_seq'::regclass)
+                                  Table "public._migrations"
+  Column   |            Type             | Collation | Nullable |           Default            
+-----------+-----------------------------+-----------+----------+------------------------------
+ id        | integer                     |           | not null | generated always as identity
  name      | character varying(255)      |           | not null | 
  createdat | timestamp without time zone |           | not null | 
  appliedat | timestamp without time zone |           | not null | now()
@@ -12,7 +12,7 @@ Indexes:
   Type   | Start | Minimum |  Maximum   | Increment | Cycles? | Cache 
 ---------+-------+---------+------------+-----------+---------+-------
  integer |     1 |       1 | 2147483647 |         1 | no      |     1
-Owned by: public._migrations.id
+Sequence for identity column: public._migrations.id
 
    Index "public._migrations_pkey"
  Column |  Type   | Key? | Definition 
@@ -20,20 +20,20 @@ Owned by: public._migrations.id
  id     | integer | yes  | id
 primary key, btree, for table "public._migrations"
 
-                              Table "public.adjectives"
-   Column    |            Type             | Collation | Nullable |      Default      
--------------+-----------------------------+-----------+----------+-------------------
- id          | uuid                        |           | not null | gen_random_uuid()
- positive    | text                        |           | not null | 
- comparative | text                        |           | not null | 
- superlative | text                        |           | not null | 
- created_at  | timestamp without time zone |           | not null | now()
- updated_at  | timestamp without time zone |           | not null | now()
+                    Table "public.adjectives"
+    Column    | Type  | Collation | Nullable |      Default      
+--------------+-------+-----------+----------+-------------------
+ id           | uuid  |           | not null | gen_random_uuid()
+ lexicon_id   | uuid  |           | not null | 
+ positive     | text  |           | not null | 
+ comparative  | text  |           | not null | 
+ superlative  | text  |           | not null | 
+ translations | jsonb |           | not null | 
 Indexes:
     "adjectives_pkey" PRIMARY KEY, btree (id)
-    "adjectives_positive_idx" UNIQUE, btree (positive)
+    "adjectives_positive_key" UNIQUE CONSTRAINT, btree (positive)
 Foreign-key constraints:
-    "adjectives_id_fkey" FOREIGN KEY (id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
+    "adjectives_lexicon_id_fkey" FOREIGN KEY (lexicon_id) REFERENCES lexicon(id)
 
   Index "public.adjectives_pkey"
  Column | Type | Key? | Definition 
@@ -41,55 +41,70 @@ Foreign-key constraints:
  id     | uuid | yes  | id
 primary key, btree, for table "public.adjectives"
 
-Index "public.adjectives_positive_idx"
+Index "public.adjectives_positive_key"
   Column  | Type | Key? | Definition 
 ----------+------+------+------------
  positive | text | yes  | positive
 unique, btree, for table "public.adjectives"
 
-                               Table "public.lexicons"
-   Column   |            Type             | Collation | Nullable |      Default      
-------------+-----------------------------+-----------+----------+-------------------
- id         | uuid                        |           | not null | gen_random_uuid()
- class      | character varying(20)       |           | not null | 
- created_at | timestamp without time zone |           | not null | now()
- updated_at | timestamp without time zone |           | not null | now()
+           Table "public.categories"
+ Column | Type | Collation | Nullable | Default 
+--------+------+-----------+----------+---------
+ name   | text |           | not null | 
 Indexes:
-    "lexicons_pkey" PRIMARY KEY, btree (id)
-    "lexicons_class_idx" btree (class)
+    "categories_pkey" PRIMARY KEY, btree (name)
 Referenced by:
-    TABLE "adjectives" CONSTRAINT "adjectives_id_fkey" FOREIGN KEY (id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
-    TABLE "nouns" CONSTRAINT "nouns_id_fkey" FOREIGN KEY (id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
-    TABLE "terms" CONSTRAINT "terms_id_fkey" FOREIGN KEY (id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
-    TABLE "translations" CONSTRAINT "translations_lexicon_id_fkey" FOREIGN KEY (lexicon_id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
-    TABLE "verbs" CONSTRAINT "verbs_id_fkey" FOREIGN KEY (id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
+    TABLE "lexicon" CONSTRAINT "lexicon_category_fkey" FOREIGN KEY (category) REFERENCES categories(name)
 
-         Index "public.lexicons_class_idx"
- Column |         Type          | Key? | Definition 
---------+-----------------------+------+------------
- class  | character varying(20) | yes  | class
-btree, for table "public.lexicons"
+  Index "public.categories_pkey"
+ Column | Type | Key? | Definition 
+--------+------+------+------------
+ name   | text | yes  | name
+primary key, btree, for table "public.categories"
 
-   Index "public.lexicons_pkey"
+                   Table "public.lexicon"
+  Column  | Type | Collation | Nullable |      Default      
+----------+------+-----------+----------+-------------------
+ id       | uuid |           | not null | gen_random_uuid()
+ category | text |           | not null | 
+ concept  | text |           | not null | 
+Indexes:
+    "lexicon_pkey" PRIMARY KEY, btree (id)
+    "lexicon_category_concept_key" UNIQUE CONSTRAINT, btree (category, concept)
+Foreign-key constraints:
+    "lexicon_category_fkey" FOREIGN KEY (category) REFERENCES categories(name)
+Referenced by:
+    TABLE "adjectives" CONSTRAINT "adjectives_lexicon_id_fkey" FOREIGN KEY (lexicon_id) REFERENCES lexicon(id)
+    TABLE "nouns" CONSTRAINT "nouns_lexicon_id_fkey" FOREIGN KEY (lexicon_id) REFERENCES lexicon(id)
+    TABLE "verbs" CONSTRAINT "verbs_lexicon_id_fkey" FOREIGN KEY (lexicon_id) REFERENCES lexicon(id)
+
+Index "public.lexicon_category_concept_key"
+  Column  | Type | Key? | Definition 
+----------+------+------+------------
+ category | text | yes  | category
+ concept  | text | yes  | concept
+unique, btree, for table "public.lexicon"
+
+    Index "public.lexicon_pkey"
  Column | Type | Key? | Definition 
 --------+------+------+------------
  id     | uuid | yes  | id
-primary key, btree, for table "public.lexicons"
+primary key, btree, for table "public.lexicon"
 
-                                Table "public.nouns"
-   Column   |            Type             | Collation | Nullable |      Default      
-------------+-----------------------------+-----------+----------+-------------------
- id         | uuid                        |           | not null | gen_random_uuid()
- article    | text                        |           | not null | 
- singular   | text                        |           | not null | 
- plural     | text                        |           | not null | 
- created_at | timestamp without time zone |           | not null | now()
- updated_at | timestamp without time zone |           | not null | now()
+                      Table "public.nouns"
+    Column    | Type  | Collation | Nullable |      Default      
+--------------+-------+-----------+----------+-------------------
+ id           | uuid  |           | not null | gen_random_uuid()
+ lexicon_id   | uuid  |           | not null | 
+ article      | text  |           | not null | 
+ singular     | text  |           | not null | 
+ plural       | text  |           | not null | 
+ translations | jsonb |           | not null | 
 Indexes:
     "nouns_pkey" PRIMARY KEY, btree (id)
-    "nouns_singular_idx" UNIQUE, btree (singular)
+    "nouns_singular_key" UNIQUE CONSTRAINT, btree (singular)
 Foreign-key constraints:
-    "nouns_id_fkey" FOREIGN KEY (id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
+    "nouns_lexicon_id_fkey" FOREIGN KEY (lexicon_id) REFERENCES lexicon(id)
 
      Index "public.nouns_pkey"
  Column | Type | Key? | Definition 
@@ -97,69 +112,11 @@ Foreign-key constraints:
  id     | uuid | yes  | id
 primary key, btree, for table "public.nouns"
 
-  Index "public.nouns_singular_idx"
+  Index "public.nouns_singular_key"
   Column  | Type | Key? | Definition 
 ----------+------+------+------------
  singular | text | yes  | singular
 unique, btree, for table "public.nouns"
-
-                                 Table "public.terms"
-   Column   |            Type             | Collation | Nullable |      Default       
-------------+-----------------------------+-----------+----------+--------------------
- id         | uuid                        |           | not null | uuid_generate_v4()
- term       | text                        |           | not null | 
- created_at | timestamp without time zone |           | not null | now()
- updated_at | timestamp without time zone |           | not null | now()
-Indexes:
-    "terms_pkey" PRIMARY KEY, btree (id)
-    "terms_term_idx" UNIQUE, btree (term)
-Foreign-key constraints:
-    "terms_id_fkey" FOREIGN KEY (id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
-
-     Index "public.terms_pkey"
- Column | Type | Key? | Definition 
---------+------+------+------------
- id     | uuid | yes  | id
-primary key, btree, for table "public.terms"
-
-   Index "public.terms_term_idx"
- Column | Type | Key? | Definition 
---------+------+------+------------
- term   | text | yes  | term
-unique, btree, for table "public.terms"
-
-                      Table "public.translations"
-   Column    |     Type     | Collation | Nullable |      Default       
--------------+--------------+-----------+----------+--------------------
- id          | uuid         |           | not null | uuid_generate_v4()
- lexicon_id  | uuid         |           | not null | 
- translation | text         |           | not null | 
- lang        | character(2) |           | not null | 
-Indexes:
-    "translations_pkey" PRIMARY KEY, btree (id)
-    "translations_lang_idx" btree (lang)
-    "translations_lexicon_id_lang_idx" UNIQUE, btree (lexicon_id, lang)
-Foreign-key constraints:
-    "translations_lexicon_id_fkey" FOREIGN KEY (lexicon_id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
-
-   Index "public.translations_lang_idx"
- Column |     Type     | Key? | Definition 
---------+--------------+------+------------
- lang   | character(2) | yes  | lang
-btree, for table "public.translations"
-
-Index "public.translations_lexicon_id_lang_idx"
-   Column   |     Type     | Key? | Definition 
-------------+--------------+------+------------
- lexicon_id | uuid         | yes  | lexicon_id
- lang       | character(2) | yes  | lang
-unique, btree, for table "public.translations"
-
- Index "public.translations_pkey"
- Column | Type | Key? | Definition 
---------+------+------+------------
- id     | uuid | yes  | id
-primary key, btree, for table "public.translations"
 
                             Table "public.users"
  Column |          Type          | Collation | Nullable |      Default      
@@ -168,9 +125,9 @@ primary key, btree, for table "public.translations"
  email  | character varying(255) |           | not null | 
 Indexes:
     "users_pkey" PRIMARY KEY, btree (id)
-    "users_email_idx" UNIQUE, btree (email)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
 
-           Index "public.users_email_idx"
+           Index "public.users_email_key"
  Column |          Type          | Key? | Definition 
 --------+------------------------+------+------------
  email  | character varying(255) | yes  | email
@@ -182,23 +139,23 @@ unique, btree, for table "public.users"
  id     | uuid | yes  | id
 primary key, btree, for table "public.users"
 
-                                   Table "public.verbs"
-     Column      |            Type             | Collation | Nullable |      Default      
------------------+-----------------------------+-----------+----------+-------------------
- id              | uuid                        |           | not null | gen_random_uuid()
- infinitive      | text                        |           | not null | 
- present         | jsonb                       |           | not null | '{}'::jsonb
- simple_past     | jsonb                       |           | not null | '{}'::jsonb
- present_perfect | jsonb                       |           | not null | '{}'::jsonb
- created_at      | timestamp without time zone |           | not null | now()
- updated_at      | timestamp without time zone |           | not null | now()
+                        Table "public.verbs"
+     Column      | Type  | Collation | Nullable |      Default      
+-----------------+-------+-----------+----------+-------------------
+ id              | uuid  |           | not null | gen_random_uuid()
+ lexicon_id      | uuid  |           | not null | 
+ infinitive      | text  |           | not null | 
+ present         | jsonb |           | not null | 
+ simple_past     | jsonb |           | not null | 
+ present_perfect | jsonb |           | not null | 
+ translations    | jsonb |           | not null | 
 Indexes:
     "verbs_pkey" PRIMARY KEY, btree (id)
-    "verbs_infinitive_idx" UNIQUE, btree (infinitive)
+    "verbs_infinitive_key" UNIQUE CONSTRAINT, btree (infinitive)
 Foreign-key constraints:
-    "verbs_id_fkey" FOREIGN KEY (id) REFERENCES lexicons(id) ON UPDATE CASCADE ON DELETE CASCADE
+    "verbs_lexicon_id_fkey" FOREIGN KEY (lexicon_id) REFERENCES lexicon(id)
 
-  Index "public.verbs_infinitive_idx"
+  Index "public.verbs_infinitive_key"
    Column   | Type | Key? | Definition 
 ------------+------+------+------------
  infinitive | text | yes  | infinitive
