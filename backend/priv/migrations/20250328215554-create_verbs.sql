@@ -1,16 +1,17 @@
 --- migration:up
 create table verbs (
-  id uuid primary key default gen_random_uuid (),
-  infinitive text not null,
-  present jsonb not null default '{}'::jsonb,
-  simple_past jsonb not null default '{}'::jsonb,
-  present_perfect jsonb not null default '{}'::jsonb,
-  created_at timestamp not null default now (),
-  updated_at timestamp not null default now (),
-  foreign key (id) references lexicons (id) on delete cascade on update cascade
+	id uuid default gen_random_uuid (),
+	lexicon_id uuid not null,
+	infinitive text not null,
+	present jsonb not null,
+	simple_past jsonb not null,
+	present_perfect jsonb not null,
+	translations jsonb not null,
+	-- constraints
+	primary key (id),
+	foreign key (lexicon_id) references lexicon (id),
+	unique (infinitive)
 );
-
-create unique index verbs_infinitive_idx on verbs (infinitive);
 
 --- migration:down
 drop table verbs;

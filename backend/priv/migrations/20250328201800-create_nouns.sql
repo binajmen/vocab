@@ -1,15 +1,16 @@
 --- migration:up
 create table nouns (
-	id uuid primary key default gen_random_uuid (),
+	id uuid default gen_random_uuid (),
+	lexicon_id uuid not null,
 	article text not null,
 	singular text not null,
 	plural text not null,
-	created_at timestamp not null default now (),
-	updated_at timestamp not null default now (),
-	foreign key (id) references lexicons (id) on delete cascade on update cascade
+	translations jsonb not null,
+	-- constraints
+	primary key (id),
+	foreign key (lexicon_id) references lexicon (id),
+	unique (singular)
 );
-
-create unique index nouns_singular_idx on nouns (singular);
 
 --- migration:down
 drop table nouns;

@@ -1,9 +1,0 @@
-{
-  "id": "short_verb",
-  "name": "Short verb",
-  "tabs": [
-    {
-      "fields": [{ "label": "Present" }, { "label": "Participle" }]
-    }
-  ]
-}
