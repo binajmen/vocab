@@ -36,9 +36,15 @@ export const Route = createFileRoute("/learn")({
   component: Learn,
   loader: async () => {
     const [nounsCsv, verbsCsv, miscCsv] = await Promise.all([
-      fetch("/nouns.csv").then((res) => res.text()),
-      fetch("/verbs.csv").then((res) => res.text()),
-      fetch("/misc.csv").then((res) => res.text()),
+      fetch(
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQNMwfAAnbOt5JbNSqEKeDEqUMAz_AvJt_VKvf0Wph9uOk-_8Ut3JZIVm9fSzir0SrLEtOGVE8rn-YH/pub?output=csv",
+      ).then((res) => res.text()),
+      fetch(
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vRUAJ9mu1Crk0D4vwurMFRn77I5uzWsQPeVzGm7mcVmMbwL5ul02lUTq0FHkhXiqj6ztOL65KOGrwp9/pub?output=csv",
+      ).then((res) => res.text()),
+      fetch(
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQMCIqEd0H1zCh7gpNYaTHSoHiR8YMY3VFOVZNWpzSvgclxYPZtNB-sV39dsdFBLG9ce37Ipr-eYFtL/pub?output=csv",
+      ).then((res) => res.text()),
     ]);
 
     const nouns = Papa.parse<Noun>(nounsCsv, {
